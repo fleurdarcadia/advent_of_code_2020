@@ -250,7 +250,7 @@ mod tests {
     use super::*;
 
     #[test]
-    fn can_solve_example() {
+    fn pt1_can_solve_example() {
         match find_pairwise_sum(&EXAMPLE_INPUT.to_vec(), DESIRED_SUM) {
             Some((first, second)) => {
                 assert_eq!(first + second, DESIRED_SUM);
@@ -262,7 +262,7 @@ mod tests {
     }
 
     #[test]
-    fn can_solve_sample_input() {
+    fn pt1_can_solve_sample_input() {
         match find_pairwise_sum(&SAMPLE_INPUT.to_vec(), DESIRED_SUM) {
             Some((first, second)) => assert_eq!(first + second, DESIRED_SUM),
 
