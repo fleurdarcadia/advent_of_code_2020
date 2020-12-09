@@ -217,7 +217,7 @@ const SAMPLE_INPUT: [i32; 200] = [
 ];
 
 /// Computes the solution to the sample input.
-pub fn solution() -> i32 {
+pub fn pt1_solution() -> i32 {
    let (first, second) = find_pairwise_sum(
        &SAMPLE_INPUT.to_vec(),
        DESIRED_SUM
