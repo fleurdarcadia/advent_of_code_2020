@@ -1,10 +1,13 @@
 const DESIRED_SUM: i32 = 2020;
 
 #[allow(dead_code)]
-const EXAMPLE_DESIRED_PRODUCT: i32 = 514579;
+const PT1_EXAMPLE_DESIRED_PRODUCT: i32 = 514579;
 
 #[allow(dead_code)]
-const EXAMPLE_INPUT: [i32; 6] = [
+const PT2_EXAMPLE_DESIRED_PRODUCT: i32 = 241861950;
+
+#[allow(dead_code)]
+const PT1_EXAMPLE_INPUT: [i32; 6] = [
     1721,
     979,
     366,
@@ -245,16 +248,43 @@ fn find_pairwise_sum(haystack: &Vec<i32>, needle: i32) -> Option<(i32, i32)>
     None
 }
 
+/// Attempts to find a triplet of numbers in a collection that sum
+/// to a particular value.
+fn find_tripletwise_sum(
+    haystack: &Vec<i32>,
+    needle: i32
+) -> Option<(i32, i32, i32)>
+{
+    let mut collection: Vec<i32> = haystack.clone();
+
+    collection.sort();
+
+    for first in haystack.iter() {
+        let possible_second_values = collection.iter()
+            .filter(|&value| *first + value <= needle);
+
+        for second in possible_second_values {
+            let third = needle - *first - *second;
+
+            if let Ok(_) = collection.binary_search(&third){
+                return Some((*first, *second, third));
+            }
+        }
+    }
+
+    None
+}
+
 #[cfg(test)]
 mod tests {
     use super::*;
 
     #[test]
     fn pt1_can_solve_example() {
-        match find_pairwise_sum(&EXAMPLE_INPUT.to_vec(), DESIRED_SUM) {
+        match find_pairwise_sum(&PT1_EXAMPLE_INPUT.to_vec(), DESIRED_SUM) {
             Some((first, second)) => {
                 assert_eq!(first + second, DESIRED_SUM);
-                assert_eq!(first * second, EXAMPLE_DESIRED_PRODUCT);
+                assert_eq!(first * second, PT1_EXAMPLE_DESIRED_PRODUCT);
             },
 
             None => assert!(false),
@@ -265,6 +295,28 @@ mod tests {
     fn pt1_can_solve_sample_input() {
         match find_pairwise_sum(&SAMPLE_INPUT.to_vec(), DESIRED_SUM) {
             Some((first, second)) => assert_eq!(first + second, DESIRED_SUM),
+
+            None => assert!(false),
+        }
+    }
+
+    #[test]
+    fn pt2_can_solve_example() {
+        match find_tripletwise_sum(&PT1_EXAMPLE_INPUT.to_vec(), DESIRED_SUM) {
+            Some((first, second, third)) => {
+                assert_eq!(first + second + third, DESIRED_SUM);
+                assert_eq!(first * second * third, PT2_EXAMPLE_DESIRED_PRODUCT);
+            },
+
+            None => assert!(false),
+        }
+    }
+
+    #[test]
+    fn pt2_can_solve_sample_input() {
+        match find_tripletwise_sum(&SAMPLE_INPUT.to_vec(), DESIRED_SUM) {
+            Some((first, second, third)) =>
+                assert_eq!(first + second + third, DESIRED_SUM),
 
             None => assert!(false),
         }
