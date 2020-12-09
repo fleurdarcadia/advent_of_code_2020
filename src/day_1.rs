@@ -219,16 +219,29 @@ const SAMPLE_INPUT: [i32; 200] = [
     1910,
 ];
 
-/// Computes the solution to the sample input.
+#[allow(dead_code)]
+/// Computes the solution to first part with the sample input.
 pub fn pt1_solution() -> i32 {
    let (first, second) = find_pairwise_sum(
        &SAMPLE_INPUT.to_vec(),
-       DESIRED_SUM
+       DESIRED_SUM,
     ).unwrap();
    
    first * second
 }
 
+#[allow(dead_code)]
+/// Computes the solution to the second part with the sample input.
+pub fn pt2_solution() -> i32 {
+    let (first, second, third) = find_tripletwise_sum(
+        &SAMPLE_INPUT.to_vec(),
+        DESIRED_SUM,
+    ).unwrap();
+
+    first * second * third
+}
+
+#[allow(dead_code)]
 /// Attempts to find a pair of numbers in a collection that sum to a
 /// particular value.
 fn find_pairwise_sum(haystack: &Vec<i32>, needle: i32) -> Option<(i32, i32)>
@@ -248,6 +261,7 @@ fn find_pairwise_sum(haystack: &Vec<i32>, needle: i32) -> Option<(i32, i32)>
     None
 }
 
+#[allow(dead_code)]
 /// Attempts to find a triplet of numbers in a collection that sum
 /// to a particular value.
 fn find_tripletwise_sum(
