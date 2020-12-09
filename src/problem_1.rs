@@ -1,7 +1,9 @@
 const DESIRED_SUM: i32 = 2020;
 
+#[allow(dead_code)]
 const EXAMPLE_DESIRED_PRODUCT: i32 = 514579;
 
+#[allow(dead_code)]
 const EXAMPLE_INPUT: [i32; 6] = [
     1721,
     979,
