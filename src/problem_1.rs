@@ -2,7 +2,7 @@ const DESIRED_SUM: i32 = 2020;
 
 const EXAMPLE_DESIRED_PRODUCT: i32 = 514579;
 
-const EXAMPLE_INPUT: Vec<i32> = vec![
+const EXAMPLE_INPUT: [i32; 6] = [
     1721,
     979,
     366,
@@ -11,7 +11,7 @@ const EXAMPLE_INPUT: Vec<i32> = vec![
     1456,
 ];
 
-const SAMPLE_INPUT: Vec<i32> = vec![
+const SAMPLE_INPUT: [i32; 200] = [
     1864,
     1880,
     1300,
@@ -214,13 +214,42 @@ const SAMPLE_INPUT: Vec<i32> = vec![
     1910,
 ];
 
+/// Computes the solution to the sample input.
+pub fn solution() -> i32 {
+   let (first, second) = find_pairwise_sum(
+       &SAMPLE_INPUT.to_vec(),
+       DESIRED_SUM
+    ).unwrap();
+   
+   first * second
+}
+
+/// Attempts to find a pair of numbers in a collection that sum to a
+/// particular value.
+fn find_pairwise_sum(haystack: &Vec<i32>, needle: i32) -> Option<(i32, i32)>
+{
+    let mut collection: Vec<i32> = haystack.clone();
+
+    collection.sort();
+
+    for first in haystack.iter() {
+        let second = needle - first;
+
+        if let Ok(_) = collection.binary_search(&second) {
+            return Some((*first, second));
+        }
+    }
+
+    None
+}
+
 #[cfg(test)]
 mod tests {
     use super::*;
 
     #[test]
     fn can_solve_example() {
-        match find_pairwise_sum(&EXAMPLE_INPUT, DESIRED_SUM) {
+        match find_pairwise_sum(&EXAMPLE_INPUT.to_vec(), DESIRED_SUM) {
             Some((first, second)) => {
                 assert_eq!(first + second, DESIRED_SUM);
                 assert_eq!(first * second, EXAMPLE_DESIRED_PRODUCT);
@@ -232,7 +261,7 @@ mod tests {
 
     #[test]
     fn can_solve_sample_input() {
-        match find_pairwise_sum(&SAMPLE_INPUT, DESIRED_SUM) {
+        match find_pairwise_sum(&SAMPLE_INPUT.to_vec(), DESIRED_SUM) {
             Some((first, second)) => assert_eq!(first + second, DESIRED_SUM),
 
             None => assert!(false),
